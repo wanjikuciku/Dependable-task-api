@@ -22,5 +22,5 @@ docker build -t dependable-task-api .
 
 This repository contains the full project report with methodology, results, and evidence.
 
-👉 [View Full Project Report](/Users/lornawanjiku/Dependable-task-api/SOFTWARE DEPENDABILITY PROJECT REPORT.pdf)
+[View Full Project Report](/Users/lornawanjiku/Dependable-task-api/SOFTWARE DEPENDABILITY PROJECT REPORT.pdf)
 
