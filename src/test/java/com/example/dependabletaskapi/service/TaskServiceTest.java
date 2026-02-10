@@ -7,6 +7,7 @@ import com.example.dependabletaskapi.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,31 @@ class TaskServiceTest {
     }
 
     @Test
+    void createTask_withEmptyTitle() {
+        Task savedTask = new Task("");
+        when(repository.save(any(Task.class))).thenReturn(savedTask);
+
+        Task result = service.createTask("");
+
+        assertNotNull(result);
+        assertEquals("", result.getTitle());
+        verify(repository).save(any(Task.class));
+    }
+
+    @Test
+    void createTask_withLongTitle() {
+        String longTitle = "A".repeat(500);
+        Task savedTask = new Task(longTitle);
+        when(repository.save(any(Task.class))).thenReturn(savedTask);
+
+        Task result = service.createTask(longTitle);
+
+        assertNotNull(result);
+        assertEquals(longTitle, result.getTitle());
+        verify(repository).save(any(Task.class));
+    }
+
+    @Test
     void getAllTasks_returnsAllTasks() {
         when(repository.findAll()).thenReturn(
                 List.of(new Task("Task A"), new Task("Task B"))
@@ -46,6 +72,26 @@ class TaskServiceTest {
         List<Task> tasks = service.getAllTasks();
 
         assertEquals(2, tasks.size());
+        verify(repository).findAll();
+    }
+
+    @Test
+    void getAllTasks_returnsEmptyList() {
+        when(repository.findAll()).thenReturn(Collections.emptyList());
+
+        List<Task> tasks = service.getAllTasks();
+
+        assertTrue(tasks.isEmpty());
+        verify(repository).findAll();
+    }
+
+    @Test
+    void getAllTasks_returnsSingleTask() {
+        when(repository.findAll()).thenReturn(List.of(new Task("Single Task")));
+
+        List<Task> tasks = service.getAllTasks();
+
+        assertEquals(1, tasks.size());
         verify(repository).findAll();
     }
 
@@ -72,6 +118,19 @@ class TaskServiceTest {
     }
 
     @Test
+    void markTaskCompleted_withDifferentIds() {
+        Task task = new Task("Task");
+        when(repository.findById(999L)).thenReturn(Optional.of(task));
+        when(repository.save(any(Task.class))).thenReturn(task);
+
+        Task result = service.markTaskCompleted(999L);
+
+        assertTrue(result.isCompleted());
+        verify(repository).findById(999L);
+        verify(repository).save(task);
+    }
+
+    @Test
     void deleteTask_deletesTaskIfExists() {
         when(repository.existsById(1L)).thenReturn(true);
 
@@ -88,5 +147,31 @@ class TaskServiceTest {
                 TaskNotFoundException.class,
                 () -> service.deleteTask(1L)
         );
+    }
+
+    @Test
+    void deleteTask_withDifferentIds() {
+        when(repository.existsById(555L)).thenReturn(true);
+
+        service.deleteTask(555L);
+
+        verify(repository).deleteById(555L);
+    }
+
+    @Test
+    void deleteTask_nonExistentWithDifferentId() {
+        when(repository.existsById(777L)).thenReturn(false);
+
+        assertThrows(
+                TaskNotFoundException.class,
+                () -> service.deleteTask(777L)
+        );
+        verify(repository, never()).deleteById(777L);
+    }
+
+    @Test
+    void constructor_initializesRepository() {
+        TaskService taskService = new TaskService(repository);
+        assertNotNull(taskService);
     }
 }
