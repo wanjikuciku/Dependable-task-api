@@ -1,18 +1,22 @@
 package com.example.dependabletaskapi.controller;
 
-import com.example.dependabletaskapi.entity.Task;
-import com.example.dependabletaskapi.exception.TaskNotFoundException;
-import com.example.dependabletaskapi.service.TaskService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.example.dependabletaskapi.repository.TaskRepository;
-
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+
+import com.example.dependabletaskapi.entity.Task;
+import com.example.dependabletaskapi.exception.TaskNotFoundException;
+import com.example.dependabletaskapi.repository.TaskRepository;
+import com.example.dependabletaskapi.service.TaskService;
 
 @DataJpaTest
 @ActiveProfiles("test")

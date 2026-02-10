@@ -1,12 +1,13 @@
 package com.example.dependabletaskapi.exception;
 
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class GlobalExceptionHandlerTest {
 
