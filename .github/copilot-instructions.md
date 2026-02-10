@@ -1,4 +1,4 @@
-# Copilot / AI agent instructions for Dependable-task-api
+# Copilot / AI agent instructions for dependable-task-api
 
 Repository summary
 - **What:** Java Spring Boot service (README states Java + Spring Boot).
